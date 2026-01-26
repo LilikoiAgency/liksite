@@ -11,7 +11,7 @@ export default function Hero() {
     <motion.section
       initial={{ minHeight: "100vh" }}
       animate={{ minHeight: "80vh" }}
-      transition={{ duration: 7, ease: "easeOut", delay: 1 }}
+      transition={{ duration: 7, ease: "easeOut", delay: 2 }}
       className="relative flex items-center justify-center overflow-hidden px-6 py-24"
     >
       <motion.div
@@ -19,15 +19,18 @@ export default function Hero() {
         initial={{
           "--mask-size": "240px",
           "--mask-pos": "50% 50%",
-          opacity: 1,
+          opacity: 0,
         }}
         animate={{
           "--mask-size": "190000px",
           "--mask-pos": maskTargetPosition,
+          opacity: 1,
         }}
         transition={{
           duration: 5,
           ease: "easeInOut",
+          delay: 2,
+          opacity: { duration: 0.8, ease: "easeOut" },
         }}
         onAnimationComplete={() => setMaskDone(true)}
         style={{
@@ -80,7 +83,7 @@ export default function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut", delay: 1.5 }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 3.25 }}
           className="mb-8 text-3xl font-light text-white sm:text-4xl lg:text-5xl"
         >
           Say hello to the future of video marketing
@@ -89,7 +92,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut", delay: 1.65 }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 3.5 }}
           className="flex flex-wrap items-center justify-center gap-4"
         >
           <a
