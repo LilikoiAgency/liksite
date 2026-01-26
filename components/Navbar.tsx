@@ -218,6 +218,12 @@ export default function Navbar() {
               <motion.span
                 aria-hidden="true"
                 className="absolute left-0 top-1/2 h-[1.5px] w-4 bg-current"
+                animate={{ opacity: mobileOpen ? 0 : 1, y: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              />
+              <motion.span
+                aria-hidden="true"
+                className="absolute left-0 top-1/2 h-[1.5px] w-4 bg-current"
                 animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 0 : -4 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
               />

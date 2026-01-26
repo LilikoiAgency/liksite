@@ -69,11 +69,11 @@ export default function Hero() {
       </motion.div>
 
       <div
-        className="absolute inset-0 bg-purple-dark/80 md:bg-purple-dark/45"
+        className="absolute inset-0 bg-purple-dark/30 md:bg-purple-dark/40"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.35),_transparent_60%)] opacity-40 md:opacity-100"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.3),_transparent_20%)] opacity-10 md:opacity-10"
         aria-hidden="true"
       />
 
