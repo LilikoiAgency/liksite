@@ -45,34 +45,9 @@ export default function ReachSection() {
         />
       </div>
       <div className="relative z-10 mx-auto w-full max-w-none">
-        <motion.h2
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.6 }}
-          variants={{
-            hidden: { opacity: 0, y: 12 },
-            show: {
-              opacity: 1,
-              y: 0,
-              transition: { staggerChildren: 0.06, delayChildren: 0.1 },
-            },
-          }}
-          className="mb-10 text-center text-[3.8vw] font-semibold uppercase tracking-[0.22em] text-white whitespace-nowrap"
-        >
-          {"Over +1 Billion Leads Reached".split(" ").map((word, index) => (
-            <motion.span
-              key={`${word}-${index}`}
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
-              }}
-              className="inline-block"
-            >
-              {word}
-              {index < 4 ? "\u00A0" : ""}
-            </motion.span>
-          ))}
-        </motion.h2>
+        <h2 className="mb-10 text-center text-[3.8vw] font-semibold uppercase tracking-[0.22em] text-white whitespace-nowrap">
+          Over +1 Billion Leads Reached
+        </h2>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}

@@ -3,26 +3,26 @@
 import { motion } from "framer-motion";
 
 export default function Hero() {
-  const maskTargetPosition = "33% 50%";
+  const maskTargetPosition = "33% 50%";;
 
   return (
     <motion.section
       initial={{ minHeight: "100vh" }}
       animate={{ minHeight: "80vh" }}
-      transition={{ duration: 4.2, ease: "easeOut", delay: 0.2 }}
+      transition={{ duration: 7, ease: "easeOut", delay: 1 }}
       className="relative flex items-center justify-center overflow-hidden px-6 py-24"
     >
       <motion.div
         className="absolute inset-0"
         initial={{
-          "--mask-size": "16vmax",
+          "--mask-size": "240px",
           "--mask-pos": "50% 50%",
         }}
         animate={{
-          "--mask-size": "10862vmax",
+          "--mask-size": "299000px",
           "--mask-pos": maskTargetPosition,
         }}
-        transition={{ duration: 5.5, ease: "easeInOut" }}
+        transition={{ duration:5.5, ease: "easeInOut" }}
         style={{
           WebkitMaskImage: "url(/images/lilikoi%20agency%20logo.svg)",
           maskImage: "url(/images/lilikoi%20agency%20logo.svg)",
