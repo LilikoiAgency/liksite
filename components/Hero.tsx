@@ -9,7 +9,7 @@ export default function Hero() {
     <motion.section
       initial={{ minHeight: "100vh" }}
       animate={{ minHeight: "80vh" }}
-      transition={{ duration: 3.2, ease: "easeOut", delay: 0.2 }}
+      transition={{ duration: 4.2, ease: "easeOut", delay: 0.2 }}
       className="relative flex items-center justify-center overflow-hidden px-6 py-24"
     >
       <motion.div
