@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Hero() {
-  const maskTargetPosition = "33% 50%";;
+  const [maskDone, setMaskDone] = useState(false);
+  const maskTargetPosition = "33% 50%";
 
   return (
     <motion.section
@@ -17,21 +19,30 @@ export default function Hero() {
         initial={{
           "--mask-size": "240px",
           "--mask-pos": "50% 50%",
+          opacity: 1,
         }}
         animate={{
-          "--mask-size": "299000px",
+          "--mask-size": "190000px",
           "--mask-pos": maskTargetPosition,
         }}
-        transition={{ duration:5.5, ease: "easeInOut" }}
+        transition={{
+          duration: 5,
+          ease: "easeInOut",
+        }}
+        onAnimationComplete={() => setMaskDone(true)}
         style={{
-          WebkitMaskImage: "url(/images/lilikoi%20agency%20logo.svg)",
-          maskImage: "url(/images/lilikoi%20agency%20logo.svg)",
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskPosition: "var(--mask-pos)",
-          maskPosition: "var(--mask-pos)",
-          WebkitMaskSize: "var(--mask-size)",
-          maskSize: "var(--mask-size)",
+          WebkitMaskImage: maskDone
+            ? "none"
+            : "url(/images/lilikoi%20agency%20logo.svg)",
+          maskImage: maskDone
+            ? "none"
+            : "url(/images/lilikoi%20agency%20logo.svg)",
+          WebkitMaskRepeat: maskDone ? undefined : "no-repeat",
+          maskRepeat: maskDone ? undefined : "no-repeat",
+          WebkitMaskPosition: maskDone ? undefined : "var(--mask-pos)",
+          maskPosition: maskDone ? undefined : "var(--mask-pos)",
+          WebkitMaskSize: maskDone ? "auto" : "var(--mask-size)",
+          maskSize: maskDone ? "auto" : "var(--mask-size)",
           willChange: "mask-size, mask-position",
         }}
       >
@@ -45,6 +56,7 @@ export default function Hero() {
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
+
         <motion.div
           className="absolute inset-0 bg-white/20"
           initial={{ opacity: 0.35 }}
@@ -53,9 +65,12 @@ export default function Hero() {
         />
       </motion.div>
 
-      <div className="absolute inset-0 bg-purple-dark/55" aria-hidden="true" />
       <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.35),_transparent_60%)]"
+        className="absolute inset-0 bg-purple-dark/80 md:bg-purple-dark/45"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.35),_transparent_60%)] opacity-40 md:opacity-100"
         aria-hidden="true"
       />
 
