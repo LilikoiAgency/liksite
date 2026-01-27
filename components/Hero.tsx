@@ -12,7 +12,7 @@ export default function Hero() {
       initial={{ minHeight: "100vh" }}
       animate={{ minHeight: "80vh" }}
       transition={{ duration: 7, ease: "easeOut", delay: 2 }}
-      className="relative flex items-center justify-center overflow-hidden px-6 py-24"
+      className="relative flex items-center justify-center overflow-hidden px-6 py-24 bg-gradient-to-b from-purple-dark to-black"
     >
       <motion.div
         className="absolute inset-0"
@@ -61,7 +61,7 @@ export default function Hero() {
         </video>
 
         <motion.div
-          className="absolute inset-0 bg-white/20"
+          className="absolute inset-0 bg-white/10"
           initial={{ opacity: 0.35 }}
           animate={{ opacity: 0 }}
           transition={{ duration: 2.4, ease: "easeInOut", delay: 0.1 }}
@@ -69,11 +69,11 @@ export default function Hero() {
       </motion.div>
 
       <div
-        className="absolute inset-0 bg-purple-dark/30 md:bg-purple-dark/40"
+        className="absolute inset-0 bg-purple-dark/15"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.3),_transparent_20%)] opacity-0 md:opacity-10"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.3),_transparent_50%)] opacity-0 md:opacity-10"
         aria-hidden="true"
       />
 
