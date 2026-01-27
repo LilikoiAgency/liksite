@@ -1,11 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
   const [maskDone, setMaskDone] = useState(false);
   const maskTargetPosition = "33% 50%";
+  const [maskStart, setMaskStart] = useState("240px");
+  const [maskEnd, setMaskEnd] = useState("190000px");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (!isMobile) return;
+    setMaskStart("180px");
+    setMaskEnd("10000px");
+  }, []);
 
   return (
     <motion.section
@@ -17,12 +27,12 @@ export default function Hero() {
       <motion.div
         className="absolute inset-0"
         initial={{
-          "--mask-size": "240px",
+          "--mask-size": maskStart,
           "--mask-pos": "50% 50%",
           opacity: 0,
         }}
         animate={{
-          "--mask-size": "190000px",
+          "--mask-size": maskEnd,
           "--mask-pos": maskTargetPosition,
           opacity: 1,
         }}
