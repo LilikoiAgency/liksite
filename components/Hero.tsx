@@ -73,7 +73,7 @@ export default function Hero() {
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.3),_transparent_20%)] opacity-10 md:opacity-10"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(157,144,197,0.3),_transparent_20%)] opacity-0 md:opacity-10"
         aria-hidden="true"
       />
 

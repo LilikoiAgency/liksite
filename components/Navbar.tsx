@@ -94,7 +94,7 @@ export default function Navbar() {
   return (
     <nav className="fixed w-full z-50 top-4 left-0 flex justify-center">
       {/* Desktop */}
-      <div className="hidden w-[90%] max-w-7xl items-center justify-between rounded-full border border-white/30 bg-white/20 p-2 shadow-lg backdrop-blur-md transition-colors hover:border-white/60 md:flex">
+      <div className="hidden w-[90%] max-w-7xl items-center justify-between rounded-full border bg-white/20 p-2 shadow-lg backdrop-blur-md transition-colors hover:border-white/60 md:flex">
         {/* Logo */}
         <a className="cursor-pointer pl-4" href="/">
           <Image
@@ -217,21 +217,21 @@ export default function Navbar() {
             <span className="relative block h-4 w-4">
               <motion.span
                 aria-hidden="true"
-                className="absolute left-0 top-1/2 h-[1.5px] w-4 bg-current"
+                className="absolute left-0 top-1/2 h-[1.5px] w-3 bg-current"
                 animate={{ opacity: mobileOpen ? 0 : 1, y: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+              />
+              <motion.span
+                aria-hidden="true"
+                className="absolute left-1/2 top-1/2 h-[1.5px] w-4 -translate-x-1/2 bg-current"
+                animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 0 : -7 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
               />
               <motion.span
                 aria-hidden="true"
                 className="absolute left-0 top-1/2 h-[1.5px] w-4 bg-current"
-                animate={{ rotate: mobileOpen ? 45 : 0, y: mobileOpen ? 0 : -4 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              />
-              <motion.span
-                aria-hidden="true"
-                className="absolute left-0 top-1/2 h-[1.5px] w-4 bg-current"
-                animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? 0 : 4 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
+                animate={{ rotate: mobileOpen ? -45 : 0, y: mobileOpen ? 0 : 6 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
               />
             </span>
           </button>
