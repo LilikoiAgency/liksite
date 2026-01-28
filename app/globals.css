@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --hero-mask-start: 540px;
+  --hero-mask-end: 190000px;
 }
 
 @theme inline {
@@ -24,8 +26,26 @@
   }
 }
 
+@media (max-width: 767px) {
+  :root {
+    --hero-mask-start: 180px;
+    --hero-mask-end: 100000px;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-poppins), sans-serif;
+  overflow-x: hidden;
+}
+
+@keyframes playPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
 }

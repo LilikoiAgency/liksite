@@ -1,46 +1,36 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Hero() {
   const [maskDone, setMaskDone] = useState(false);
   const maskTargetPosition = "33% 50%";
-  const [maskStart, setMaskStart] = useState("240px");
-  const [maskEnd, setMaskEnd] = useState("190000px");
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    if (!isMobile) return;
-    setMaskStart("180px");
-    setMaskEnd("10000px");
-  }, []);
 
   return (
     <motion.section
       initial={{ minHeight: "100vh" }}
       animate={{ minHeight: "80vh" }}
-      transition={{ duration: 7, ease: "easeOut", delay: 2 }}
+      transition={{ duration: 5, ease: "easeOut", delay:2 }}
       className="relative flex items-center justify-center overflow-hidden px-6 py-24 bg-gradient-to-b from-purple-dark to-black"
     >
       <motion.div
         className="absolute inset-0"
         initial={{
-          "--mask-size": maskStart,
+          "--mask-size": "var(--hero-mask-start)",
           "--mask-pos": "50% 50%",
           opacity: 0,
         }}
         animate={{
-          "--mask-size": maskEnd,
+          "--mask-size": "var(--hero-mask-end)",
           "--mask-pos": maskTargetPosition,
           opacity: 1,
         }}
         transition={{
-          duration: 5,
+          duration: 3,
           ease: "easeInOut",
           delay: 2,
-          opacity: { duration: 0.8, ease: "easeOut" },
+          opacity: { duration: 1, ease: "easeInOut" },
         }}
         onAnimationComplete={() => setMaskDone(true)}
         style={{
@@ -79,7 +69,7 @@ export default function Hero() {
       </motion.div>
 
       <div
-        className="absolute inset-0 bg-purple-dark/15"
+        className="absolute inset-0 bg-purple-dark/25"
         aria-hidden="true"
       />
       <div
@@ -94,7 +84,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut", delay: 3.25 }}
-          className="mb-8 text-3xl font-light text-white sm:text-4xl lg:text-5xl"
+          className="mb-8 text-3xl font-light text-white sm:text-4xl lg:text-5xl text-center"
         >
           Say hello to the future of video marketing
         </motion.h1>
