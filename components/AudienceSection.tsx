@@ -9,7 +9,7 @@ const TABS = [
     label: "Targeted Streaming",
     title: "Reach viewers where they watch",
     body:
-      "Place your brand inside premium streaming environments with precision targeting and measurable outcomes.",
+      "Deliver your message to the right audience across premium streaming platforms, where attention is high and storytelling matters most.",
     cta: "Explore Targeted Streaming",
   },
   {
@@ -17,7 +17,7 @@ const TABS = [
     label: "Paid Social",
     title: "Spark demand across social",
     body:
-      "Turn attention into action with social strategies designed for engagement, retargeting, and scale.",
+      "Deliver your message to the right audience across premium streaming platforms, where attention is high and storytelling matters most.",
     cta: "Explore Paid Social",
   },
   {

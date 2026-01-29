@@ -28,8 +28,8 @@
 
 @media (max-width: 767px) {
   :root {
-    --hero-mask-start: 180px;
-    --hero-mask-end: 100000px;
+    --hero-mask-start: 200px;
+    --hero-mask-end: 90000px;
   }
 }
 
@@ -47,5 +47,32 @@ body {
   }
   50% {
     transform: scale(1.04);
+  }
+}
+
+.bg-hero-canvas {
+  background: linear-gradient(
+    120deg,
+    #ffffff,
+    #ffe9f6,
+    #ff6f91,
+    #ff8f5f,
+    #9d90c5,
+    #2c1f36,
+    #ffffff
+  );
+  background-size: 400% 400%;
+  animation: heroCanvas 8s ease-in-out infinite;
+}
+
+@keyframes heroCanvas {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

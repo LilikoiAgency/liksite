@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 
 export default function ReachSection() {
@@ -11,11 +11,10 @@ export default function ReachSection() {
   const [ended, setEnded] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const controlsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 80, damping: 18 });
-  const sy = useSpring(my, { stiffness: 80, damping: 18 });
+  const sx = useSpring(0, { stiffness: 80, damping: 18 });
+  const sy = useSpring(0, { stiffness: 80, damping: 18 });
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -23,11 +22,13 @@ export default function ReachSection() {
   });
 
   const tileScale = useTransform(scrollYProgress, [0, 0.5], [0.92, 1]);
-  const tileWidth = useTransform(scrollYProgress, [0, 0.5], ["55%", "90%"]);
-  const scrollX = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const scrollY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const fx = useTransform([sx, scrollX], ([a, b]: number[]) => a + b);
-  const fy = useTransform([sy, scrollY], ([a, b]: number[]) => a + b);
+  const tileWidth = useTransform(
+    scrollYProgress,
+    isMobile ? [0, 0.4] : [0, 0.5],
+    isMobile ? ["70%", "100%"] : ["55%", "90%"],
+  );
+  const fx = sx;
+  const fy = sy;
 
   const toggleMute = () => {
     const next = !muted;
@@ -72,7 +73,12 @@ export default function ReachSection() {
   };
 
   useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
     return () => {
+      media.removeEventListener("change", update);
       if (controlsTimeout.current) {
         clearTimeout(controlsTimeout.current);
       }
@@ -83,17 +89,6 @@ export default function ReachSection() {
     <section
       ref={sectionRef}
       className="relative overflow-hidden bg-[#1b1422] px-6 py-24 text-white"
-      onPointerMove={(e) => {
-        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        mx.set(x * 20);
-        my.set(y * 20);
-      }}
-      onPointerLeave={() => {
-        mx.set(0);
-        my.set(0);
-      }}
     >
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(157,144,197,0.25),_transparent_55%),_radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.12),_transparent_50%)]"

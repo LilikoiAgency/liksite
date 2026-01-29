@@ -1,11 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
   const [maskDone, setMaskDone] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const maskTargetPosition = "33% 50%";
+  const [forceReveal, setForceReveal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setForceReveal(true), 1800);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   return (
     <motion.section
@@ -27,7 +43,7 @@ export default function Hero() {
           opacity: 1,
         }}
         transition={{
-          duration: 3,
+          duration: isMobile ? 4.5 : 3,
           ease: "easeInOut",
           delay: 2,
           opacity: { duration: 1, ease: "easeInOut" },
@@ -49,13 +65,24 @@ export default function Hero() {
           willChange: "mask-size, mask-position",
         }}
       >
+        <div
+          className={`absolute inset-0 bg-hero-canvas transition-opacity duration-700 ${
+            videoReady || forceReveal ? "opacity-0" : "opacity-100"
+          }`}
+          aria-hidden="true"
+        />
         <video
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover transition-opacity duration-700 ${
+            videoReady || forceReveal ? "opacity-100" : "opacity-0"
+          }`}
           autoPlay
           muted
           loop
           playsInline
           aria-hidden="true"
+          preload="auto"
+          onLoadedData={() => setVideoReady(true)}
+          onCanPlay={() => setVideoReady(true)}
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
