@@ -40,6 +40,11 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-snap-type: none;
+  scroll-padding-top: 6rem;
+}
+
 @keyframes playPulse {
   0%,
   100% {
@@ -75,4 +80,13 @@ body {
   100% {
     background-position: 0% 50%;
   }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
