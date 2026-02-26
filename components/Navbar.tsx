@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Variants } from "framer-motion";
 import Image from "next/image";
@@ -96,7 +97,7 @@ export default function Navbar() {
       {/* Desktop */}
       <div className="hidden w-[90%] max-w-7xl items-center justify-between rounded-full border bg-white/20 p-2 shadow-lg backdrop-blur-md transition-colors hover:border-white/60 md:flex">
         {/* Logo */}
-        <a className="cursor-pointer pl-4" href="/">
+        <Link className="cursor-pointer pl-4" href="/">
           <Image
             src="/images/lilikoi%20agency%20logo.svg"
             alt="Lilikoi Agency"
@@ -104,7 +105,7 @@ export default function Navbar() {
             height={30}
             priority
           />
-        </a>
+        </Link>
 
         {/* Nav Items */}
         <ul className="hidden items-center gap-8 text-white font-light md:flex">
@@ -155,7 +156,7 @@ export default function Navbar() {
                       >
                         {item.dropdown.map((dropItem, i) => (
                           <li key={i}>
-                            <a
+                            <Link
                               href={dropItem.href}
                               className={`block px-4 py-2 transition-colors ${
                                 isActive(dropItem.href)
@@ -164,7 +165,7 @@ export default function Navbar() {
                               }`}
                             >
                               {dropItem.label}
-                            </a>
+                            </Link>
                           </li>
                         ))}
                       </motion.ul>
@@ -172,9 +173,9 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
               ) : (
-                <a href={item.href} className={navLinkClass(isActive(item.href))}>
+                <Link href={item.href} className={navLinkClass(isActive(item.href))}>
                   {item.label}
-                </a>
+                </Link>
               )}
             </li>
           ))}
@@ -182,12 +183,12 @@ export default function Navbar() {
 
         {/* Contact Button */}
         <div className="hidden md:block">
-          <a
+          <Link
             href="/contact"
             className="bg-purple-dark text-white px-6 py-2 rounded-full font-light hover:bg-purple-lilikoi transition-colors"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -198,7 +199,7 @@ export default function Navbar() {
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="flex items-center gap-3 rounded-full border border-white/30 bg-white/20 px-3 py-2 shadow-lg backdrop-blur-md transition-colors hover:border-white/60"
         >
-          <a className="cursor-pointer pl-1" href="/">
+          <Link className="cursor-pointer pl-1" href="/">
             <Image
               src="/images/lilikoi%20agency%20logo.svg"
               alt="Lilikoi Agency"
@@ -206,7 +207,7 @@ export default function Navbar() {
               height={30}
               priority
             />
-          </a>
+          </Link>
           <button
             type="button"
             aria-label="Open menu"
@@ -237,7 +238,7 @@ export default function Navbar() {
           </button>
         </motion.div>
 
-        <a
+        <Link
           href="/contact"
           aria-label="Call"
           className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white shadow-lg backdrop-blur-md transition-colors hover:border-white/60"
@@ -257,7 +258,7 @@ export default function Navbar() {
               strokeLinejoin="round"
             />
           </svg>
-        </a>
+        </Link>
       </div>
 
       <AnimatePresence>

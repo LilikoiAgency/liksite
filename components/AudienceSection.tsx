@@ -32,7 +32,6 @@ const TABS = [
 
 export default function AudienceSection() {
   const [activeId, setActiveId] = useState(TABS[0].id);
-  const activeTab = TABS.find((tab) => tab.id === activeId) ?? TABS[0];
   const activeIndex = TABS.findIndex((tab) => tab.id === activeId);
   const x = useMotionValue(0);
   const [slideWidth, setSlideWidth] = useState(0);
@@ -72,8 +71,9 @@ export default function AudienceSection() {
 
   useEffect(() => {
     if (!slideWidth) return;
-    snapToIndex(activeIndex);
-  }, [activeIndex, slideWidth, slideGap, sidePadding]);
+    const target = sidePadding - activeIndex * (slideWidth + slideGap);
+    animate(x, target, { type: "spring", stiffness: 260, damping: 32 });
+  }, [activeIndex, sidePadding, slideGap, slideWidth, x]);
 
   return (
     <section className="relative bg-[linear-gradient(180deg,#2c1f36_0%,#2c1f36_48%,#fffdd0_48%,#fffdd0_100%)] px-6 py-24">
