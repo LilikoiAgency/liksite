@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +11,34 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [navTheme, setNavTheme] = useState<"dark" | "light">("dark");
   const pathname = usePathname();
+
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-theme]"));
+    if (!targets.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (!visible.length) return;
+        const theme = visible[0].target.getAttribute("data-nav-theme");
+        if (theme === "dark" || theme === "light") {
+          setNavTheme(theme);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-10% 0px -75% 0px",
+        threshold: [0, 0.15, 0.35, 0.6, 0.9],
+      },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [pathname]);
 
   const mobileMenuVariants: Variants = {
     hidden: { opacity: 0, y: -10 },
@@ -85,21 +112,40 @@ export default function Navbar() {
     return pathname?.startsWith(href);
   };
 
+  const isLightTheme = navTheme === "light";
+  const logoSrc = isLightTheme
+    ? "/images/lilikoi%20agency%20logo-dark.svg"
+    : "/images/lilikoi%20agency%20logo.svg";
+
+  const shellClass = isLightTheme
+    ? "border-purple-dark/15 bg-white/90 text-purple-dark shadow-black/15"
+    : "border-white/30 bg-white/20 text-white hover:border-white/60";
+
+  const dropdownClass = isLightTheme
+    ? "border border-purple-dark/12 bg-white/95 text-purple-dark"
+    : "bg-white/20 text-white";
+
   const navLinkClass = (active: boolean) =>
     `px-3 py-1 rounded-full transition-colors ${
       active
-        ? "bg-white/20 backdrop-blur-md border border-white/30 text-white"
-        : "hover:text-purple-lilikoi"
+        ? isLightTheme
+          ? "border border-purple-dark/10 bg-zinc-200 text-purple-dark"
+          : "border border-white/35 bg-white/25 text-white"
+        : isLightTheme
+          ? "text-purple-dark hover:text-purple-lilikoi"
+          : "text-white hover:text-purple-lilikoi"
     }`;
 
   return (
     <nav className="fixed w-full z-50 top-4 left-0 flex justify-center">
       {/* Desktop */}
-      <div className="hidden w-[90%] max-w-7xl items-center justify-between rounded-full border bg-white/20 p-2 shadow-lg backdrop-blur-md transition-colors hover:border-white/60 md:flex">
+      <div
+        className={`hidden w-[97%] items-center justify-between rounded-full border p-2 shadow-lg backdrop-blur-md transition-colors md:flex ${shellClass}`}
+      >
         {/* Logo */}
         <Link className="cursor-pointer pl-4" href="/">
           <Image
-            src="/images/lilikoi%20agency%20logo.svg"
+            src={logoSrc}
             alt="Lilikoi Agency"
             width={90}
             height={30}
@@ -108,7 +154,7 @@ export default function Navbar() {
         </Link>
 
         {/* Nav Items */}
-        <ul className="hidden items-center gap-8 text-white font-light md:flex">
+        <ul className={`hidden items-center gap-8 font-light md:flex ${isLightTheme ? "text-purple-dark" : "text-white"}`}>
           {navItems.map((item, index) => (
             <li key={index} className="relative">
               {item.dropdown ? (
@@ -152,7 +198,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-full left-0 mt-2 w-40 bg-white/20 backdrop-blur-md rounded-lg shadow-lg text-white font-thin flex flex-col"
+                        className={`absolute top-full left-0 mt-2 flex w-44 flex-col rounded-lg shadow-lg backdrop-blur-md ${dropdownClass}`}
                       >
                         {item.dropdown.map((dropItem, i) => (
                           <li key={i}>
@@ -160,8 +206,12 @@ export default function Navbar() {
                               href={dropItem.href}
                               className={`block px-4 py-2 transition-colors ${
                                 isActive(dropItem.href)
-                                  ? "bg-white/20 backdrop-blur-md border border-white/30 rounded-md text-white"
-                                  : "hover:bg-purple-lilikoi/30"
+                                  ? isLightTheme
+                                    ? "rounded-md bg-purple-dark text-white"
+                                    : "rounded-md border border-white/30 bg-white/20 text-white"
+                                  : isLightTheme
+                                    ? "text-purple-dark hover:bg-purple-lilikoi/15"
+                                    : "hover:bg-purple-lilikoi/30"
                               }`}
                             >
                               {dropItem.label}
@@ -185,7 +235,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <Link
             href="/contact"
-            className="bg-purple-dark text-white px-6 py-2 rounded-full font-light hover:bg-purple-lilikoi transition-colors"
+          className="rounded-full bg-purple-dark px-6 py-2 font-light text-white transition-colors hover:bg-purple-lilikoi"
           >
             Contact Us
           </Link>
@@ -197,11 +247,11 @@ export default function Navbar() {
         <motion.div
           layout
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="flex items-center gap-3 rounded-full border border-white/30 bg-white/20 px-3 py-2 shadow-lg backdrop-blur-md transition-colors hover:border-white/60"
+          className={`flex items-center gap-3 rounded-full border px-3 py-2 shadow-lg backdrop-blur-md transition-colors ${shellClass}`}
         >
           <Link className="cursor-pointer pl-1" href="/">
             <Image
-              src="/images/lilikoi%20agency%20logo.svg"
+              src={logoSrc}
               alt="Lilikoi Agency"
               width={90}
               height={30}
@@ -212,7 +262,11 @@ export default function Navbar() {
             type="button"
             aria-label="Open menu"
             aria-expanded={mobileOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white/60"
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${
+              isLightTheme
+                ? "border-purple-dark/25 text-purple-dark hover:border-purple-dark/50"
+                : "border-white/30 text-white hover:border-white/60"
+            }`}
             onClick={() => setMobileOpen((open) => !open)}
           >
             <span className="relative block h-4 w-4">
@@ -241,7 +295,11 @@ export default function Navbar() {
         <Link
           href="/contact"
           aria-label="Call"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white shadow-lg backdrop-blur-md transition-colors hover:border-white/60"
+          className={`flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md transition-colors ${
+            isLightTheme
+              ? "border-purple-dark/20 bg-white/90 text-purple-dark hover:border-purple-dark/45"
+              : "border-white/30 bg-white/20 text-white hover:border-white/60"
+          }`}
         >
           <svg
             width="20"
@@ -268,7 +326,11 @@ export default function Navbar() {
             initial="hidden"
             animate="show"
             exit="exit"
-            className="absolute top-full left-1/2 mt-3 w-[90%] -translate-x-1/2 rounded-2xl border border-white/30 bg-white/20 p-4 text-white shadow-lg backdrop-blur-md md:hidden"
+            className={`absolute top-full left-1/2 mt-3 w-[90%] -translate-x-1/2 rounded-2xl border p-4 shadow-lg backdrop-blur-md md:hidden ${
+              isLightTheme
+                ? "border-purple-dark/15 bg-white/95 text-purple-dark"
+                : "border-white/30 bg-white/20 text-white"
+            }`}
           >
             <div className="flex flex-col gap-4">
               <motion.a
@@ -316,7 +378,7 @@ export default function Navbar() {
                     initial="hidden"
                     animate="show"
                     exit="exit"
-                    className="flex flex-col gap-3 pl-3 text-sm text-white/90 overflow-hidden"
+                    className={`flex flex-col gap-3 overflow-hidden pl-3 text-sm ${isLightTheme ? "text-purple-dark/85" : "text-white/90"}`}
                   >
                     <motion.a
                       variants={mobileSubItemVariants}
