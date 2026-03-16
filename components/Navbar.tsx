@@ -18,17 +18,34 @@ export default function Navbar() {
     const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-theme]"));
     if (!targets.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (!visible.length) return;
-        const theme = visible[0].target.getAttribute("data-nav-theme");
+    const resolveTheme = () => {
+      const probeY = Math.min(window.innerHeight * 0.18, 140);
+      const coveringTarget = targets.find((target) => {
+        const rect = target.getBoundingClientRect();
+        return rect.top <= probeY && rect.bottom >= probeY;
+      });
+
+      if (coveringTarget) {
+        const theme = coveringTarget.getAttribute("data-nav-theme");
         if (theme === "dark" || theme === "light") {
           setNavTheme(theme);
         }
-      },
+        return;
+      }
+
+      const nearestTarget = targets
+        .map((target) => ({ target, rect: target.getBoundingClientRect() }))
+        .filter(({ rect }) => rect.top <= probeY)
+        .sort((a, b) => b.rect.top - a.rect.top)[0]?.target;
+
+      const fallbackTheme = nearestTarget?.getAttribute("data-nav-theme");
+      if (fallbackTheme === "dark" || fallbackTheme === "light") {
+        setNavTheme(fallbackTheme);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      () => resolveTheme(),
       {
         root: null,
         rootMargin: "-10% 0px -75% 0px",
@@ -37,7 +54,15 @@ export default function Navbar() {
     );
 
     targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
+    resolveTheme();
+    window.addEventListener("scroll", resolveTheme, { passive: true });
+    window.addEventListener("resize", resolveTheme);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", resolveTheme);
+      window.removeEventListener("resize", resolveTheme);
+    };
   }, [pathname]);
 
   const mobileMenuVariants: Variants = {
